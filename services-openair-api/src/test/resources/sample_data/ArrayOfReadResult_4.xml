@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ns0:ArrayOfReadResult 
+    xmlns:ns0="http://namespaces.soaplite.com/perl" 
+    xmlns:ns1="https://sandbox.openair.com/OAirService" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <readResult>
+        <objects>
+            <oaBase/>
+        </objects>
+    </readResult>
+</ns0:ArrayOfReadResult>

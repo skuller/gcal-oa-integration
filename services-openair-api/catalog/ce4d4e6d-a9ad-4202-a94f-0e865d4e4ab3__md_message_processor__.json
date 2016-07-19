@@ -1,0 +1,11 @@
+{
+    "inputMessageMetadata": {
+        "messagePayload": {
+            "connectorName": "#_custom_mule_metadata_type_#",
+            "typeId": "task-time-post"
+        }
+    },
+    "outputMessageMetadata": {},
+    "id": "ce4d4e6d-a9ad-4202-a94f-0e865d4e4ab3",
+    "version": "5.2.0.0"
+}

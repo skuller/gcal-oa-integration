@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:openair="http://www.mulesoft.org/schema/mule/openair" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/openair http://www.mulesoft.org/schema/mule/openair/current/mule-openair.xsd">
+    <openair:config name="OpenAir__Configuration" company="MuleSoft Partner SB" username="mcollins" password="pass" apiNamespace="default" apiKey="Wnz4enEbfFOvhhQSDPeL" connectionTimeout="1" readTimeout="1" doc:name="OpenAir: Configuration">
+        <reconnect-forever blocking="false"/>
+    </openair:config>
+</mule>

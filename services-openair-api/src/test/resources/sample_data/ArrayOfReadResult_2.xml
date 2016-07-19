@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ns0:ArrayOfReadResult 
+    xmlns:ns0="http://namespaces.soaplite.com/perl" 
+    xmlns:ns1="https://sandbox.openair.com/OAirService" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <readResult>
+        <objects>
+            <oaBase>
+                <oaProject>
+                    <id>2</id>
+                    <picklist_label>Honeycomb Services : Time off</picklist_label>
+                </oaProject>
+                <oaProject>
+                    <id>3</id>
+                    <picklist_label>Honeycomb Services : General administration</picklist_label>
+                </oaProject>
+                <oaProject>
+                    <id>4</id>
+                    <picklist_label>Honeycomb Services : Business development</picklist_label>
+                </oaProject>
+                <oaProject>
+                    <id>5</id>
+                    <picklist_label>Honeycomb Services : System integration template</picklist_label>
+                </oaProject>
+                <oaProject>
+                    <id>6</id>
+                    <picklist_label>Honeycomb Services : Quick project template</picklist_label>
+                </oaProject>
+                <oaProject>
+                    <id>7</id>
+                    <picklist_label>Honeycomb Services : Account audit template</picklist_label>
+                </oaProject>
+                <oaProject>
+                    <id>8</id>
+                    <picklist_label>Altima Technology : ERP deployment</picklist_label>
+                </oaProject>
+                <oaProject>
+                    <id>9</id>
+                    <picklist_label>Zibura Technologies : Hardware implementation</picklist_label>
+                </oaProject>
+                <oaProject>
+                    <id>10</id>
+                    <picklist_label>Cooper Software : HRIS system configuration</picklist_label>
+                </oaProject>
+                <oaProject>
+                    <id>11</id>
+                    <picklist_label>Cooper Software : PSA implementation</picklist_label>
+                </oaProject>
+                <oaProject>
+                    <id>12</id>
+                    <picklist_label>Motiva Inc. : CRM implementation</picklist_label>
+                </oaProject>
+                <oaProject>
+                    <id>13</id>
+                    <picklist_label>United Software : Add-on services</picklist_label>
+                </oaProject>
+                <oaProject>
+                    <id>14</id>
+                    <picklist_label>Altima Technology : ERP integration</picklist_label>
+                </oaProject>
+                <oaProject>
+                    <id>15</id>
+                    <picklist_label>Tinnerman Group : Custom web services</picklist_label>
+                </oaProject>
+                <oaProject>
+                    <id>16</id>
+                    <picklist_label>Fernhill Solutions : Financial integration</picklist_label>
+                </oaProject>
+                <oaProject>
+                    <id>17</id>
+                    <picklist_label>Luxis Software : Mobile platform integration</picklist_label>
+                </oaProject>
+                <oaProject>
+                    <id>18</id>
+                    <picklist_label>Monrovia Database : Bi-directional integration</picklist_label>
+                </oaProject>
+                <oaProject>
+                    <id>19</id>
+                    <picklist_label>Webb Inc. : Two-day consulting</picklist_label>
+                </oaProject>
+                <oaProject>
+                    <id>20</id>
+                    <picklist_label>Cooper Software : Admin training</picklist_label>
+                </oaProject>
+                <oaProject>
+                    <id>21</id>
+                    <picklist_label>Foster Software : Quick account maintenance</picklist_label>
+                </oaProject>
+                <oaProject>
+                    <id>23</id>
+                    <picklist_label>Altima Technology : Account audit</picklist_label>
+                </oaProject>
+                <oaProject>
+                    <id>24</id>
+                    <picklist_label>Steen Solutions : CRM configuraiton audit</picklist_label>
+                </oaProject>
+                <oaProject>
+                    <id>25</id>
+                    <picklist_label>Global Information : System upgrade</picklist_label>
+                </oaProject>
+                <oaProject>
+                    <id>26</id>
+                    <picklist_label>Tinnerman Group : New version audit</picklist_label>
+                </oaProject>
+                <oaProject>
+                    <id>27</id>
+                    <picklist_label>Damus Inc. : Deployment services</picklist_label>
+                </oaProject>
+                <oaProject>
+                    <id>28</id>
+                    <picklist_label>Fernhill Solutions : Account review</picklist_label>
+                </oaProject>
+                <oaProject>
+                    <id>29</id>
+                    <picklist_label>Global Information : HRIS and payroll setup</picklist_label>
+                </oaProject>
+                <oaProject>
+                    <id>30</id>
+                    <picklist_label>Luxis Software : Planned maintenance</picklist_label>
+                </oaProject>
+                <oaProject>
+                    <id>31</id>
+                    <picklist_label>Zibura Technologies : System reconfiguration</picklist_label>
+                </oaProject>
+                <oaProject>
+                    <id>32</id>
+                    <picklist_label>Webb Inc. : PSA module deployment</picklist_label>
+                </oaProject>
+                <oaProject>
+                    <id>33</id>
+                    <picklist_label>Damus Inc. : Payroll integration</picklist_label>
+                </oaProject>
+                <oaProject>
+                    <id>34</id>
+                    <picklist_label>Altima Technology : SRP deployment</picklist_label>
+                </oaProject>
+                <oaProject>
+                    <id>35</id>
+                    <picklist_label>Altima Technology : CRM integration</picklist_label>
+                </oaProject>
+                <oaProject>
+                    <id>36</id>
+                    <picklist_label>Webb Inc. : HRMS integration</picklist_label>
+                </oaProject>
+                <oaProject>
+                    <id>37</id>
+                    <picklist_label>Cooper Software : Consulting services</picklist_label>
+                </oaProject>
+                <oaProject>
+                    <id>38</id>
+                    <picklist_label>Luxis Software : Custom web app</picklist_label>
+                </oaProject>
+                <oaProject>
+                    <id>39</id>
+                    <picklist_label>Monrovia Database : Upsell account audit</picklist_label>
+                </oaProject>
+                <oaProject>
+                    <id>40</id>
+                    <picklist_label>Tinnerman Group : Software implementation</picklist_label>
+                </oaProject>
+                <oaProject>
+                    <id>41</id>
+                    <picklist_label>Global Information : Cloud connector</picklist_label>
+                </oaProject>
+                <oaProject>
+                    <id>42</id>
+                    <picklist_label>Webb Inc. : BI tool installation</picklist_label>
+                </oaProject>
+                <oaProject>
+                    <id>43</id>
+                    <picklist_label>Zibura Technologies : Data migration services</picklist_label>
+                </oaProject>
+                <oaProject>
+                    <id>44</id>
+                    <picklist_label>Motiva Inc. : New group expansion</picklist_label>
+                </oaProject>
+                <oaProject>
+                    <id>45</id>
+                    <picklist_label>Foster Software : ERP implementation</picklist_label>
+                </oaProject>
+                <oaProject>
+                    <id>46</id>
+                    <picklist_label>Cooper Software : Server integration</picklist_label>
+                </oaProject>
+                <oaProject>
+                    <id>53</id>
+                    <picklist_label>Global Information : EX | T&amp;M with expenses</picklist_label>
+                </oaProject>
+                <oaProject>
+                    <id>54</id>
+                    <picklist_label>Global Information : EX | T&amp;M not to exceed</picklist_label>
+                </oaProject>
+                <oaProject>
+                    <id>55</id>
+                    <picklist_label>Global Information : EX | Milestone with % complete</picklist_label>
+                </oaProject>
+                <oaProject>
+                    <id>56</id>
+                    <picklist_label>Honeycomb Services : Deployment template</picklist_label>
+                </oaProject>
+                <oaProject>
+                    <id>57</id>
+                    <picklist_label>Global Information : EX | Partial Periods</picklist_label>
+                </oaProject>
+                <oaProject>
+                    <id>58</id>
+                    <picklist_label>Global Information : EX | Expense policy</picklist_label>
+                </oaProject>
+                <oaProject>
+                    <id>59</id>
+                    <picklist_label>Cooper Software : dummy test</picklist_label>
+                </oaProject>
+            </oaBase>
+        </objects>
+    </readResult>
+</ns0:ArrayOfReadResult>

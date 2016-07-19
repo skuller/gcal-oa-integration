@@ -1,0 +1,66 @@
+<div class="container">
+
+    <h2>Event Added</h2>
+
+    <p>Your event has been successfully pushed to OpenAir. Click <a href="" target=\"_blank\" id="AddEventLink">here</a> to view your timesheet.</p>
+
+    <form id="submittedOpenAirForm" class="form-horizontal" style="margin-top: 25px;">
+        
+        <div class="form-group">
+            <label for="Timesheet" class="col-sm-3 col-xs-3 control-label">Timesheet Period</label>
+            <div class="col-sm-6 col-xs-8">
+                <input id="Timesheet" class="form-control" type="text" name="Timesheet" disabled>
+            </div>
+        </div>
+		
+        <div class="form-group">
+            <label for="Project" class="col-sm-3 col-xs-3 control-label">Project</label>
+            <div class="col-sm-6 col-xs-8">
+                <input id="Project" name="Project" class="form-control" disabled>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="Task" class="col-sm-3 col-xs-3 control-label">Task</label>
+            <div class="col-sm-6 col-xs-8">
+                <input id="Task" name="Task" class="form-control" disabled>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="EventNotes" class="col-sm-3 col-xs-3 control-label">Notes</label>
+            <div class="col-sm-6 col-xs-8">
+                <input id="EventNotes" name="EventNotes" class="form-control" type="text" disabled>
+            </div>
+        </div>
+
+		<div class="form-group">
+            <label for="EventDate" class="col-sm-3 col-xs-3 control-label">Date</label>
+            <div class="col-sm-6 col-xs-8">
+                <input id="EventDate" class="form-control" type="text" name="EventDate" disabled>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="Hours" class="col-sm-3 col-xs-3 control-label">Duration</label>
+            <div class="col-sm-6 col-xs-8">
+                <div class="input-group">
+                    <input id="Hours" class="form-control" type="number" value="0" min="0" step="any" name="Hours" disabled>
+                    <div class="input-group-addon">hours</div>
+                </div>
+            </div>
+        </div>
+
+        <input id="eid" type="hidden" value="" name="eid" class="ignore">
+        <input id="Id" type="hidden" value="" name="Id" class="ignore">
+		<input id="TimesheetId" type="hidden" value="" name="timesheetId" class="ignore">
+
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-xs-offset-3 col-sm-6 col-xs-8">
+                <input type="submit" value="Close" id="closePopup" class="btn btn-danger pull-right">
+            </div>
+        </div>
+
+    </form>
+
+</div>

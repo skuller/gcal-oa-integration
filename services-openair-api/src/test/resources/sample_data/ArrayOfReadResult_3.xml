@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ns0:ArrayOfReadResult 
+    xmlns:ns0="http://namespaces.soaplite.com/perl" 
+    xmlns:ns1="https://sandbox.openair.com/OAirService" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <readResult>
+        <objects>
+            <oaBase>
+                <oaProjecttask>
+                    <id>123</id>
+                    <name>Sick</name>
+                    <projectid>2</projectid>
+                </oaProjecttask>
+                <oaProjecttask>
+                    <name>Vacation</name>
+                    <projectid>2</projectid>
+                </oaProjecttask>
+                <oaProjecttask>
+                    <name>Holidays</name>
+                    <projectid>2</projectid>
+                </oaProjecttask>
+                <oaProjecttask>
+                    <name>Other</name>
+                    <projectid>2</projectid>
+                </oaProjecttask>
+                <oaProjecttask>
+                    <name>Staff training and development</name>
+                    <projectid>3</projectid>
+                </oaProjecttask>
+                <oaProjecttask>
+                    <name>Administrative</name>
+                    <projectid>3</projectid>
+                </oaProjecttask>
+                <oaProjecttask>
+                    <name>Non-project meetings</name>
+                    <projectid>3</projectid>
+                </oaProjecttask>
+                <oaProjecttask>
+                    <name>Other</name>
+                    <projectid>3</projectid>
+                </oaProjecttask>
+                <oaProjecttask>
+                    <name>Pre-sales support</name>
+                    <projectid>4</projectid>
+                </oaProjecttask>
+                <oaProjecttask>
+                    <name>Internal calls</name>
+                    <projectid>4</projectid>
+                </oaProjecttask>
+                <oaProjecttask>
+                    <name>Issue management</name>
+                    <projectid>4</projectid>
+                </oaProjecttask>
+                <oaProjecttask>
+                    <name>Support case management</name>
+                    <projectid>4</projectid>
+                </oaProjecttask>
+                <oaProjecttask>
+                    <name>Review SOW</name>
+                    <projectid>16</projectid>
+                </oaProjecttask>
+            </oaBase>
+        </objects>
+    </readResult>
+</ns0:ArrayOfReadResult>

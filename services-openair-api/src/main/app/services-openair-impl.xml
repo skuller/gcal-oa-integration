@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:metadata="http://www.mulesoft.org/schema/mule/metadata" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:validation="http://www.mulesoft.org/schema/mule/validation" xmlns:mulexml="http://www.mulesoft.org/schema/mule/xml" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:openair="http://www.mulesoft.org/schema/mule/openair"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/openair http://www.mulesoft.org/schema/mule/openair/current/mule-openair.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd
+http://www.mulesoft.org/schema/mule/xml http://www.mulesoft.org/schema/mule/xml/current/mule-xml.xsd
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+    <validation:config name="Validation_Configuration" doc:name="Validation Configuration"/>
+    <ee:object-store-caching-strategy name="Caching_Strategy" keyGenerationExpression="#[flowVars.email]" doc:name="Caching Strategy">
+        <managed-store storeName="users-cache" maxEntries="1000" entryTTL="-1" expirationInterval="60000"/>
+    </ee:object-store-caching-strategy>
+    <ee:object-store-caching-strategy name="Caching_Strategy_Projects" keyGenerationExpression="#[&quot;static&quot;]" doc:name="Caching Strategy">
+        <managed-store storeName="projects-cache" maxEntries="1000" entryTTL="-1" expirationInterval="60000"/>
+    </ee:object-store-caching-strategy>
+    <flow name="get:/timesheets-impl">
+        <set-variable variableName="email" value="#[message.inboundProperties.'http.query.params'.email]" doc:name="email"/>
+        <enricher target="#[flowVars.userId]" doc:name="Message Enricher">
+            <flow-ref name="get-user-id-by-email" doc:name="get-user-id-by-email"/>
+        </enricher>
+        <dw:transform-message doc:name="Timesheet Request">
+            <dw:input-payload doc:sample="ArrayOfReadResult.xml"/>
+            <dw:input-inbound-property doc:sample="Map.dwl" propertyName="http.query.params"/>
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/xml
+%namespace ns0 http://namespaces.soaplite.com/perl
+%var date = inboundProperties."http.query.params".date as :date
+---
+{
+	ns0#ArrayOfReadRequest: {
+		readRequest: {
+			method: "user",
+			attributes: {
+				attribute: {
+					name: "limit",
+					value: "1"
+				},
+				attribute: {
+					name: "filter",
+					value: "older-than,newer-than"
+				},
+				attribute: {
+					name: "field",
+					value: "starts,ends"
+				}
+			},
+			type: "Timesheet",
+			objects: {
+				oaBase: {
+					oaUser: {
+						id: flowVars.userId
+					}
+				},
+				oaBase: {
+					oaDate: {
+						year: date as :string {format: "yyyy"},
+						month: date as :string {format: "MM"},
+						day: date as :string {format: "dd"}
+					}
+				},
+				oaBase: {
+					oaDate: {
+						year: date as :string {format: "yyyy"},
+						month: date as :string {format: "MM"},
+						day: date as :string {format: "dd"}
+					}
+				}
+			}
+		}
+	}
+}
+]]></dw:set-payload>
+        </dw:transform-message>
+        <openair:read config-ref="OpenAir__Configuration" oaObject="OpenAir||read||oaTimesheet" doc:name="Timesheets"/>
+        <mulexml:dom-to-xml-transformer doc:name="DOM to XML"/>
+        <validation:is-true config-ref="Validation_Configuration" expression="#[xpath3('//oaTimesheet',payload,'BOOLEAN')]" message="Timesheet not found. Please create one in OpenAir and try again." exceptionClass="org.mule.module.apikit.exception.NotFoundException" doc:name="exists?"/>
+        <dw:transform-message doc:name="Timesheet JSON">
+            <dw:input-payload doc:sample="ArrayOfReadResult_4.xml"/>
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/json
+%namespace ns0 http://namespaces.soaplite.com/perl
+%var toDate = (obj) -> ((obj as :localdatetime {format: "yyyy-MM-dd H:m:s"}) as :string {format: "yyyy-MM-dd"})
+---
+{
+	timesheet: {
+		id: (payload.ns0#ArrayOfReadResult.*readResult.objects.oaBase.*oaTimesheet[0].id) default null,
+		status: (payload.ns0#ArrayOfReadResult.*readResult.objects.oaBase.*oaTimesheet[0].status) default null,
+		period: (toDate(payload.ns0#ArrayOfReadResult.*readResult.objects.oaBase.*oaTimesheet[0].starts) ++ " to " ++ toDate(payload.ns0#ArrayOfReadResult.*readResult.objects.oaBase.*oaTimesheet[0].ends)) 
+			when payload.ns0#ArrayOfReadResult.*readResult.objects.oaBase.*oaTimesheet[0].starts != null
+			otherwise null
+	} 
+}]]></dw:set-payload>
+        </dw:transform-message>
+    </flow>
+    <flow name="get:/projects/tasks-impl">
+        <set-variable variableName="email" value="#[message.inboundProperties.'http.query.params'.email]" doc:name="email"/>
+        <enricher target="#[flowVars.userId]" doc:name="Message Enricher">
+            <flow-ref name="get-user-id-by-email" doc:name="get-user-id-by-email"/>
+        </enricher>
+        <enricher target="#[flowVars.projectLookup]" doc:name="Message Enricher">
+            <flow-ref name="project-lookup-map" doc:name="project-lookup-map"/>
+        </enricher>
+        <dw:transform-message doc:name="Project Tasks Request">
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/xml
+%namespace ns0 http://namespaces.soaplite.com/perl
+---
+{
+	ns0#ArrayOfReadRequest: {
+		readRequest: {
+			method: "user",
+			fields: "id,name,projectid,project_name",
+			attributes: {
+				attribute: {
+					name: "limit",
+					value: "1000"
+				}
+			},
+			type: "Projecttask",
+			objects: {
+				oaBase: {
+					oaUser: {
+						id: flowVars.userId
+					}
+				}
+			}
+		}
+	}
+}
+]]></dw:set-payload>
+        </dw:transform-message>
+        <openair:read config-ref="OpenAir__Configuration" oaObject="OpenAir||read||oaProjecttask" doc:name="Projecttasks"/>
+        <dw:transform-message doc:name="Project Tasks JSON">
+            <dw:input-payload doc:sample="ArrayOfReadResult_3.xml"/>
+            <dw:input-variable doc:sample="map.dwl" variableName="projectLookup"/>
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/json
+%namespace ns0 http://namespaces.soaplite.com/perl
+---
+{
+	projects: (payload.ns0#ArrayOfReadResult.*readResult.objects.oaBase.*oaProjecttask groupBy $.projectid pluck {
+		project: {
+			id: '$$',
+			name: flowVars.projectLookup['$$']
+		},
+		tasks: $ pluck {
+			id: $.id, 
+			name: $.name
+		}
+	}) 
+}]]></dw:set-payload>
+        </dw:transform-message>
+    </flow>
+    <flow name="get:/projects/tasks/time/{id}-impl">
+        <dw:transform-message metadata:id="11a60b77-1992-490e-a5b8-124dd7ea61a1" doc:name="Task lookup">
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/xml
+%namespace ns0 http://namespaces.soaplite.com/perl
+---
+{
+	ns0#ArrayOfReadRequest: {
+		readRequest: {
+			method: "equal to",
+			fields: "date,updated,id,timesheetid,userid,decimal_hours,projectid,created,projecttaskid,notes",
+			attributes: {
+				attribute: {
+					name: "limit",
+					value: "1000"
+				}
+			},
+			type: "Task",
+			objects: {
+				oaBase: {
+					oaTask: {
+						id: flowVars.id
+					}
+				}
+			}
+		}
+	}
+}]]></dw:set-payload>
+        </dw:transform-message>
+        <openair:read config-ref="OpenAir__Configuration" oaObject="OpenAir||read||oaTaskTimecard" doc:name="Task"/>
+        <dw:transform-message doc:name="Task JSON">
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/json
+%namespace ns0 http://namespaces.soaplite.com/perl
+---
+{
+	task: payload.ns0#ArrayOfReadResult.*readResult.objects.oaBase[0].oaTask
+}]]></dw:set-payload>
+        </dw:transform-message>
+    </flow>
+    <flow name="post:/projects/tasks/time-impl">
+        <dw:transform-message metadata:id="ce4d4e6d-a9ad-4202-a94f-0e865d4e4ab3" doc:name="email">
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/json
+---
+payload]]></dw:set-payload>
+            <dw:set-variable variableName="email"><![CDATA[%dw 1.0
+%output application/java
+---
+payload.email]]></dw:set-variable>
+        </dw:transform-message>
+        <enricher target="#[flowVars.userId]" doc:name="Message Enricher">
+            <flow-ref name="get-user-id-by-email" doc:name="get-user-id-by-email"/>
+        </enricher>
+        <dw:transform-message doc:name="Task Time Request" metadata:id="11a60b77-1992-490e-a5b8-124dd7ea61a1">
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/xml
+%namespace ns0 http://namespaces.soaplite.com/perl
+---
+{
+	ns0#ArrayOfoaBase: {
+		oaBase: {
+			oaTask: {
+				userid: flowVars.userId,
+				date: payload.date,
+				decimal_hours: payload.decimal_hours,
+				projecttaskid: payload.projecttaskid,
+				timesheetid: payload.timesheetid,
+				projectid: payload.projectid,
+				notes: payload.notes
+			}
+		}
+	}
+}]]></dw:set-payload>
+        </dw:transform-message>
+        <openair:add config-ref="OpenAir__Configuration" oaObject="OpenAir||add||oaTask" doc:name="Task"/>
+        <dw:transform-message doc:name="Task JSON">
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/json
+%namespace ns0 http://namespaces.soaplite.com/perl
+---
+payload.ns0#ArrayOfUpdateResult.updateResult]]></dw:set-payload>
+        </dw:transform-message>
+    </flow>
+    <sub-flow name="get-user-id-by-email">
+        <ee:cache cachingStrategy-ref="Caching_Strategy" doc:name="Cache">
+            <dw:transform-message doc:name="User Request">
+                <dw:set-payload><![CDATA[%dw 1.0
+%output application/xml
+%namespace ns0 http://namespaces.soaplite.com/perl
+---
+{
+	ns0#ArrayOfReadRequest: {
+		readRequest: {
+			method: "equal to",
+			fields: "id",
+			attributes: {
+				attribute: {
+					name: "limit",
+					value: "1"
+				}
+			},
+			type: "User",
+			objects: {
+				oaBase: {
+					oaUser: {
+						addr_email: flowVars.email
+					}
+				}
+			}
+		}
+	}
+}
+]]></dw:set-payload>
+            </dw:transform-message>
+            <openair:read config-ref="OpenAir__Configuration" oaObject="OpenAir||read||oaUser" doc:name="Users"/>
+            <dw:transform-message doc:name="userId">
+                <dw:input-payload doc:sample="ArrayOfReadResult_1.xml"/>
+                <dw:set-payload><![CDATA[%dw 1.0
+%output application/java
+%namespace ns0 http://namespaces.soaplite.com/perl
+---
+payload.ns0#ArrayOfReadResult.*readResult.objects.oaBase.oaUser.id[0] default null]]></dw:set-payload>
+            </dw:transform-message>
+            <validation:is-not-null config-ref="Validation_Configuration" value="#[payload]" message="User not found. Please make sure your email is associated with your OpenAir account." exceptionClass="org.mule.module.apikit.exception.NotFoundException" doc:name="Validate userId"/>
+        </ee:cache>
+    </sub-flow>
+    <sub-flow name="project-lookup-map">
+        <ee:cache cachingStrategy-ref="Caching_Strategy_Projects" doc:name="Cache">
+            <dw:transform-message doc:name="Projects Request">
+                <dw:set-payload><![CDATA[%dw 1.0
+%output application/xml
+%namespace ns0 http://namespaces.soaplite.com/perl
+---
+{
+	ns0#ArrayOfReadRequest: {
+		readRequest: {
+			method: "all",
+			fields: "id,picklist_label",
+			attributes: {
+				attribute: {
+					name: "limit",
+					value: "1000"
+				}
+			},
+			type: "Project"
+		}
+	}
+}
+]]></dw:set-payload>
+            </dw:transform-message>
+            <openair:read config-ref="OpenAir__Configuration" oaObject="OpenAir||read||oaProject" doc:name="Projects"/>
+            <dw:transform-message doc:name="Project Id Map">
+                <dw:input-payload doc:sample="ArrayOfReadResult_2.xml"/>
+                <dw:set-payload><![CDATA[%dw 1.0
+%output application/java
+%namespace ns0 http://namespaces.soaplite.com/perl
+---
+payload.ns0#ArrayOfReadResult.*readResult.objects.oaBase.*oaProject mapObject {
+	($.id) : ($.picklist_label)
+}]]></dw:set-payload>
+            </dw:transform-message>
+        </ee:cache>
+    </sub-flow>
+</mule>

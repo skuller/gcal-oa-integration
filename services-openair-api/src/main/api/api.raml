@@ -1,0 +1,51 @@
+#%RAML 0.8
+baseUri: http://mocksvc.mulesoft.com/mocks/b589b9ec-a3c6-4dc5-85dc-189395dfa9ee
+title: Services - OpenAir API
+version: 1
+
+/timesheets:
+  get:
+    queryParameters:
+      email:
+        description: Get timesheets for the given user's email
+      date:
+        description: Get timesheet for the given date with the format yyyy-MM-dd (e.g. 2016-01-01)
+        pattern: \d{4}-\d{2}-\d{2}
+    responses:
+      200:
+        body:
+          application/json:
+
+/projects/tasks:
+  get:
+    queryParameters:
+      email:
+        description: Get projects and tasks for the given user's email
+    responses:
+      200:
+        body:
+          application/json:
+  /time:
+    post:
+      body:
+        application/json:
+          example: |
+            {
+              "email": "andres.ramirez@mulesoft.com",
+              "date": "2015-12-08",
+              "decimal_hours": "8",
+              "projecttaskid": "27",
+              "timesheetid": "1759",
+              "projectid": "2",
+              "notes": "some notes"
+            }
+      responses:
+        200:
+          body:
+            application/json:
+    /{id}:
+      get:
+        responses:
+          200:
+            body:
+              application/json:

@@ -1,0 +1,24 @@
+.container {
+    width: 900px;
+}
+
+/* style the AddToOpenAir button on the event page */
+#addToOpenAirBtn {
+  float: right;
+/* background: #f5f5f5; */
+  background: #7594b0;
+  border-width: 0;
+  min-height: 28px;
+  box-shadow: inset 1px 1px 0 rgba(0,0,0,.1),inset -1px -1px 0 rgba(0,0,0,.07);
+  background-image: -webkit-linear-gradient(top,#f5f5f5,#f1f1f1);
+  color: #444;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: bold;
+  height: 27px;
+  line-height: 27px;
+  outline: none;
+  padding: 0 8px;
+  text-align: center;
+  -webkit-border-radius: 2px;
+}
